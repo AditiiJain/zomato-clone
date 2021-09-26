@@ -10,7 +10,7 @@ const FoodSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId, //foreign key
     ref: "images", //referenced schema
   },
-  price: { type: Number, default: 100, required: true },
+  price: { type: Number, default:100, required: true },
   addOns: [
     {
       type: mongoose.Types.ObjectId,
@@ -24,7 +24,7 @@ const FoodSchema = new mongoose.Schema({
   },
 });
 
-export const FoodModel = mongoose.Model("foods", FoodSchema);
+export const FoodModel = mongoose.model("foods", FoodSchema);
 
 //in terms of SQL,
 //referencing schema(table)-> which take reference from other schema

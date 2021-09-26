@@ -12,4 +12,13 @@ const MenuSchema = new mongoose.Schema({
       ],
     },
   ],
+  recommended: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "foods",
+      unique: true,
+    },
+  ],
 });
+
+export const MenuModel = mongoose.model("menu", MenuSchema);

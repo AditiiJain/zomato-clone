@@ -8,4 +8,4 @@ const ImageSchema = new mongoose.Schema({
   ],
 });
 
-export const ImageModel = mongoose.Model("images", ImageSchema);
+export const ImageModel = mongoose.model("images", ImageSchema);
