@@ -16,7 +16,7 @@ Method          POST
 */
 Router.post("/signup", async (req, res) => {
   try {
-    const { email, password, fullName, phoneNumber } = req.body.credentials;
+    const { email, password, fullname, phoneNumber } = req.body.credentials;
     //check whether email or phone number exists
     const checkUserByEmail = await UserModel.findOne({ email });
     const checkUserByPhone = await UserModel.findOne({ phoneNumber });
@@ -24,16 +24,16 @@ Router.post("/signup", async (req, res) => {
       return res.json({ error: "User Already Exists!" });
     }
 
-    //DB
-    //.create()->creates another field in DB
-    await UserModel.create ({   
-      ...res.body.credentials,
-      password: hashedPassword,
-    });
-
     //hashing and salting
     const bcryptSalt = await bcrypt.genSalt(8);
-    const hashedPassword = await bclrypt.hash(password, bcryptSalt);
+    const hashedPassword = await bcrypt.hash(password, bcryptSalt);
+
+    //DB -> storing each field
+    //.create()->creates another field in DB
+    await UserModel.create({
+      ...req.body.credentials,
+      password: hashedPassword,
+    });
 
     //JWT Auth Token
     const token = jwt.sign({ user: { fullname, email } }, "ZomatoApp");
