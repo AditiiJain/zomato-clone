@@ -32,6 +32,22 @@ UserSchema.statics.findEmailAndPhone = async ({ email, phoneNumber }) => {
   return false;
 };
 
+UserSchema.statics.findByEmailAndPassword = async ({ email, password }) => {
+  //check whether the email exists
+  const user = await UserModel.findOne({ email });
+
+  if(!user){
+    throw new Error("user does not exist!");
+  }
+
+  //check whether the password matches
+  const doesPasswordMatch = await bcrypt.compare(password,user.password);
+  if (!doesPasswordMatch){
+    throw new Error("Invalid password!");
+  }
+  return false;
+};
+
 //first parameter-> tells what and why action you are going to take
 //second parameter-> what will happen after the action
 //pre-> A lot of things are happening simultaneously, so inside the pre function, we want the function to be executed whenever we are creating a new DB and save it.{whenever we are saving something, the pre function should be executed}
