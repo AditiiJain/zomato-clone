@@ -6,6 +6,7 @@ const Router = express.Router();
 
 //models
 import { UserModel } from "../../database/user";
+import passport from "passport";
 
 /*
 Route           /signup
@@ -60,13 +61,47 @@ Router.post("/signin", async (req, res) => {
     const user = await UserModel.findByEmailAndPassword(req.body.credentials);
 
     //JWT Auth Token
-    const token = user.generateJwtToken();
+    // const token = user.generateJwtToken();
 
-    return res.status(200).json({ token, status: "Success" });
+    return res.status(200).json({ 
+      // token, 
+      status: "Success" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 });
+
+/*
+Route           /google
+Description     google sign in
+Params          None
+Access          Public  
+Method          GET
+*/
+// Router.get(
+//   "/google",
+//   passport.authenticate("google", {
+//     scope: [
+//       "http://www.googleapis.com/auth/userinfo.profile",
+//       "http://www.googleapis.com/auth/userinfo.email",
+//     ],
+//   })
+// );
+
+/*
+Route           /google/callback
+Description     google sign in callback
+Params          None
+Access          Public  
+Method          GET
+*/
+// Router.get(
+//   "/google/callback",
+//   passport.authenticate("google", { failureRedirect: "/" }),
+//   (req, res) => {
+//     return res.json({ token: req.session.passport.user.token });
+//   }
+// );
 
 export default Router;
 
