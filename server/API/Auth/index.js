@@ -1,12 +1,13 @@
 import express from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 const Router = express.Router();
 
 //models
 import { UserModel } from "../../database/user";
-import passport from "passport";
+// import passport from "passport";
+
+//Validation
+import { ValidateSignup, ValidateSignin } from "../../validation/auth";
 
 /*
 Route           /signup
@@ -17,6 +18,7 @@ Method          POST
 */
 Router.post("/signup", async (req, res) => {
   try {
+    await ValidateSignup(req.body.credentials);
     // const { email, password, fullname, phoneNumber } = req.body.credentials;
     //check whether email or phone number exists
     // const checkUserByEmail = await UserModel.findOne({ email });
@@ -58,14 +60,16 @@ Method          POST
 */
 Router.post("/signin", async (req, res) => {
   try {
+    await ValidateSignin(req.body.credentials);
     const user = await UserModel.findByEmailAndPassword(req.body.credentials);
 
     //JWT Auth Token
     // const token = user.generateJwtToken();
 
-    return res.status(200).json({ 
-      // token, 
-      status: "Success" });
+    return res.status(200).json({
+      // token,
+      status: "Success",
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
