@@ -13,7 +13,7 @@ import { s3Upload } from "../../Utilities/AWS/s3";
 const Router = express.Router();
 
 //Multer config
-const storage = multer.memoryStorage(); //allow multer to upload all images on your RAM's server
+const storage = multer.memoryStorage(); //allow multer to upload all images on your server's RAM
 const upload = multer({ storage }); //now upload images from RAM of the server to AWS
 
 /*

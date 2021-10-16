@@ -1,5 +1,7 @@
 import express from "express";
 
+import passport from "passport";
+
 import { OrderModel } from "../../database/allmodels";
 
 const Router = express.Router();
@@ -12,18 +14,22 @@ Access         Public
 Method         GET
 */
 
-Router.get("/:_id", async (req, res) => {
-  try {
-    const { _id } = req.params;
-    const getOrders = await OrderModel.findOne({ user: _id });
+Router.get(
+  "/:_id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      const { _id } = req.params;
+      const getOrders = await OrderModel.findOne({ user: _id });
 
-    if (!getOrders) return res.status(404).json({ error: "user not found" });
+      if (!getOrders) return res.status(404).json({ error: "user not found" });
 
-    return res.json({ orders });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
+      return res.json({ orders });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
 /*
 Route          /new
@@ -42,11 +48,12 @@ Router.post("/new/:id", async (req, res) => {
       },
       {
         $push: { orderDetails: orderDetails },
-      },{
-          new:true
+      },
+      {
+        new: true,
       }
     );
-    return res.json({order:addNewOrder});
+    return res.json({ order: addNewOrder });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
