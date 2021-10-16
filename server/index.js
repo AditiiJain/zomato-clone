@@ -49,7 +49,7 @@ zomato.use("/order", Order);
 zomato.use("/reviews", Reviews);
 
 zomato.get("/", (req, res) => {
-  return res.json({ message: "i am aditi" });
+  return res.json({ message: "setup success" });
 });
 
 zomato.listen(4000, () =>

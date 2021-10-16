@@ -7,7 +7,7 @@ const Router = express.Router();
 /*
 Route          /
 Description    get a user data
-Params         none
+Params         _id
 Access         Public
 Method         GET
 */
